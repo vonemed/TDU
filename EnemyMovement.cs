@@ -2,7 +2,8 @@
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float speed;
+    public float speed = 1f;
+    public float health = 100f;
 
     private Transform target;  // A current waypoint for enemy to follow
     private int waypointIndex = 0;
