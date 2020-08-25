@@ -3,17 +3,30 @@ using UnityEngine;
 
 public class TowerController : MonoBehaviour
 {
-    [Header("Attributes")]
-    public float fireRate = 1f;
+    [Header("General Attributes")]
     public float range = 2f;
+
+    [Header("Plasma Tower")]
+    public bool PlasmaTower;
+    public float fireRate = 1f;
+    public GameObject projectiilePrefab;
+
+    [Header("Laser Tower")]
+    public bool LaserTower;
+    public LineRenderer lineRenderer;
+
+    [Header("Flame Tower")]
+    public bool FlameTower;
+
+
     private float turretRotationSpeed = 10f;
-    public float restBetweenShots = 0f;
+    private float restBetweenShots = 0f;
 
     [Header("Other")]
     [SerializeField]
     private Transform target;
     public string enemyTag = "enemy";
-    public GameObject projectiilePrefab;
+    public Transform shootingPoint;
     public Transform pivot;
 
     void Start()
@@ -50,24 +63,50 @@ public class TowerController : MonoBehaviour
         if (target == null)
             return;
 
+        LockToTarget();
+
+        if (PlasmaTower == true)
+        {
+            if (restBetweenShots <= 0f)
+            {
+                Shooting();
+                restBetweenShots = 1f / fireRate;
+            }
+
+            restBetweenShots -= Time.deltaTime;
+
+        } else if (LaserTower == true)
+        {
+            Laser();
+        }
+    }
+
+    void LockToTarget()
+    {
         Vector3 dir = target.position - transform.position; // Find the direction vector to target   
         Quaternion lookRotation = Quaternion.LookRotation(dir); // Creates a rotation with the specified forward and upwards directions. (doc)
         Vector3 rot = Quaternion.Lerp(pivot.rotation, lookRotation, Time.deltaTime * turretRotationSpeed).eulerAngles; // Set rotation to Euler angles , using Lerp to smooth the transition
         pivot.rotation = Quaternion.Euler(0f, rot.y, 0f);
-
-        if (restBetweenShots <= 0f)
-        {
-            Shooting();
-            restBetweenShots = 1f / fireRate;
-        }
-
-        restBetweenShots -= Time.deltaTime;
     }
 
     void Shooting()
     {
-        Debug.Log("SHOOT");
+        GameObject projectileInst = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position, shootingPoint.rotation); // Instantiate a projectile based on prefab
+        PlasmaProjectile projectile = projectileInst.GetComponent<PlasmaProjectile>(); // Give the projectile plasma attributes
+
+        if (projectile != null)
+        {
+            projectile.findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
+        }
     }
+
+    void Laser()
+    {
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, shootingPoint.position);
+        lineRenderer.SetPosition(1, target.position);
+    }
+
 
     void OnDrawGizmosSelected() // To draw gizmos representing the range of the turret
     {
