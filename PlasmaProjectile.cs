@@ -6,9 +6,10 @@ public class PlasmaProjectile : MonoBehaviour
 {
     [Header("Attributes")]
     public float speed = 10f;
-    private float damage = 50f;
+    public float damage;
 
     private Transform target;
+    public float explosionRadius = 0f;
 
     public void findTarget(Transform _target)
     {
@@ -37,8 +38,48 @@ public class PlasmaProjectile : MonoBehaviour
 
     public void hitTarget()
     {
-        target.GetComponent<Enemy>().TakeDamage(damage);
+        if (explosionRadius > 0f) // Flames
+        {
+            explosion();
+        }
+        else // regular plasma projectile
+        {
+            Damage(target);
+        }
+
         Destroy(gameObject);
-        Debug.Log("HIT!");
+    }
+
+    public void explosion()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider collider in colliders)
+        {
+            if (collider.tag == "enemy")
+            {
+                Damage(collider.transform);
+            }
+        }
+    }
+
+    void Damage(Transform enemy)
+    {
+        Enemy e = enemy.GetComponent<Enemy>();
+
+        if (e != null)
+        {
+            e.TakeDamage(damage);
+
+        } else // If its can't find enemy component then it is a boss;
+        {
+            EnemyBoss eb = enemy.GetComponent<EnemyBoss>();
+            eb.TakeDamage(damage);
+        }
+    }
+
+    void OnDrawGizmosSelected() // Draw collision sphere of projectiles
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }

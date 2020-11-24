@@ -8,15 +8,18 @@ public class TowerController : MonoBehaviour
 
     [Header("Plasma Tower")]
     public bool PlasmaTower;
-    public float fireRate = 1f;
+    public float fireRate =1f;
     public GameObject projectiilePrefab;
 
     [Header("Laser Tower")]
     public bool LaserTower;
     public LineRenderer lineRenderer;
+    private int damageOverTime = 30;
 
     [Header("Flame Tower")]
     public bool FlameTower;
+    public ParticleSystem flames;
+    public GameObject flameMissilePrefab;
 
 
     private float turretRotationSpeed = 10f;
@@ -25,6 +28,7 @@ public class TowerController : MonoBehaviour
     [Header("Other")]
     [SerializeField]
     private Transform target;
+    private Enemy targetEnemy; // The enemy component of the target, so that we don't need to find the component of the target every frame
     public string enemyTag = "enemy";
     public Transform shootingPoint;
     public Transform pivot;
@@ -55,13 +59,29 @@ public class TowerController : MonoBehaviour
         if (nearestEnemy != null && shortestDistance <= range) 
         {
             target = nearestEnemy.transform;
+            targetEnemy = nearestEnemy.GetComponent<Enemy>();
+
+        } else
+        {
+            target = null;
         }
     }
 
     void Update()
     {
         if (target == null)
+        {
+            if (LaserTower == true)
+            {
+                lineRenderer.enabled = false;
+
+            } else if (FlameTower == true)
+            {
+                flames.Pause();
+                flames.Clear(flames);
+            }
             return;
+        }
 
         LockToTarget();
 
@@ -78,6 +98,18 @@ public class TowerController : MonoBehaviour
         } else if (LaserTower == true)
         {
             Laser();
+
+        } else if (FlameTower == true)
+        {
+            fireRate = 3f;
+            Flame();
+            if (restBetweenShots <= 0f)
+            {
+                Shooting();
+                restBetweenShots = 1f / fireRate;
+            }
+
+            restBetweenShots -= Time.deltaTime;
         }
     }
 
@@ -105,8 +137,15 @@ public class TowerController : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, shootingPoint.position);
         lineRenderer.SetPosition(1, target.position);
+
+        targetEnemy.TakeDamage(damageOverTime * Time.deltaTime); //So now the speed of which enemy receives the damage is not depending on computer speed. Also the damage is inflicted per second NOT per frame 
+        target.GetComponent<EnemyMovement>().SlowEffect(0.5f);
     }
 
+    void Flame()
+    {
+        flames.Play();
+    }
 
     void OnDrawGizmosSelected() // To draw gizmos representing the range of the turret
     {
