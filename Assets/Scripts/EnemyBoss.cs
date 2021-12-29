@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBoss : MonoBehaviour
 {
@@ -7,7 +8,11 @@ public class EnemyBoss : MonoBehaviour
     public bool lordCube;
     public bool eternalCyllinder;
 
-    public float health;
+    [Header("Unity Stuff")]
+    public Image healthBar;
+
+    public float startHealth;
+    private float health;
     private bool invincible = false;
     private int defaultNumber = 100;
 
@@ -35,7 +40,9 @@ public class EnemyBoss : MonoBehaviour
         if(invincible == false)
             health -= _damage;
 
-        if(health <= 0)
+        healthBar.fillAmount = health / startHealth;
+
+        if (health <= 0)
         {
             if (kingSphere == true)
                 PlayerStats.Money += 50;

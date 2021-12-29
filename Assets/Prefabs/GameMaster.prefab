@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4391301620945228064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4391301620945228066}
+  - component: {fileID: 4391301620945228065}
+  - component: {fileID: 4391301620945228067}
+  - component: {fileID: 4391301620945228076}
+  - component: {fileID: 4391301620945228077}
+  m_Layer: 0
+  m_Name: GameMaster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4391301620945228066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391301620945228064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4391301620945228065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391301620945228064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eff26fe63af178458f0faced4786480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sphereLackeyPrefab: {fileID: 8580709579200508224, guid: 2332f956c4ae37242b639e4c3587aa5a,
+    type: 3}
+  cubeKnightPrefab: {fileID: 5096833562952061384, guid: 8654c1231cc21f047b8264cdd2ffa4da,
+    type: 3}
+  cylinderCommanderPrefab: {fileID: 1094682844438842717, guid: 81402c9614ffacf4693f94131c16a6bb,
+    type: 3}
+  kingSphere: {fileID: 3237800111139101885, guid: 5cbbe2857e3197c47b3f63709c468d67,
+    type: 3}
+  lordCube: {fileID: 2318759568142656636, guid: 019b751744ed80142ba0429e7a2532c5,
+    type: 3}
+  eternalCylinder: {fileID: 335399898698696891, guid: ca498212d42e7d1488659537362fb65b,
+    type: 3}
+  spawnPoint: {fileID: 0}
+  startWave: {fileID: 0}
+  waveCountdowntext: {fileID: 0}
+--- !u!114 &4391301620945228067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391301620945228064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6f45374fb25594aa9217c595d94ce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plasmaTower: {fileID: 9096637565814367763, guid: 2660b52ddd6a2e24b99e6ee7953b8aa4,
+    type: 3}
+  laserTower: {fileID: 3758853292097728771, guid: c212c289fa2a8ef44a4b7d1d011e8610,
+    type: 3}
+  flameTower: {fileID: 7449973297960006815, guid: 11a24883065078b449124aee15714dc2,
+    type: 3}
+--- !u!114 &4391301620945228076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391301620945228064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d323604d972b474aa76e0ad4c796307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingMoney: 20
+  startingLives: 20
+--- !u!114 &4391301620945228077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391301620945228064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3feeb693eafc34399a2af67aad31a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
