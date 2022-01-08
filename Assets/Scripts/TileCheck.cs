@@ -16,14 +16,10 @@ public class TileCheck : MonoBehaviour
     private Renderer rend;
     private Color startColor;
 
-    BuildManager buildManager;
-
     void Start()
     {
         rend = GetComponent<Renderer>();
         startColor = rend.material.color;
-
-        buildManager = BuildManager.instance;
     }
 
     public Vector3 GetBuildPosition()
@@ -33,26 +29,26 @@ public class TileCheck : MonoBehaviour
     
     void OnMouseDown()
     {
-        // If there's already a tower on a given tile, do not build a tower otherwise continue 
-        if (!buildManager.CanBuild)
-            return;
-        // If player has money, do normal highlighted color, otherwise make it red which indicates that they can't build due to no money
-        if (buildManager.HasMoney)
-        {
-            rend.material.color = hoverColor;
-        }
-        else
-        {
-            rend.material.color = RedColor;
-        }
+        rend.material.color = RedColor;
 
         if (tower != null)
         {
             Debug.Log("Can't build there!");
+            BuildManager.Instance.SelectTile(this);
             return;
         }
 
-        buildManager.BuildTowerOn(this);
+        // If there's already a tower on a given tile, do not build a tower otherwise continue 
+        if (!BuildManager.Instance.CanBuild)
+            return;
+
+        //To prevent from multiple building by oneClick and errors when clicking on empty tile
+        if (BuildManager.Instance.towerToBuild.prefab != null && tower == null)
+        {
+            BuildManager.Instance.BuildTowerOn(this);
+            //Reset the current selected tower after its construction
+            BuildManager.Instance.SelectTowerToBuild(null);
+        } 
     }
 
     void OnMouseEnter()
@@ -60,7 +56,7 @@ public class TileCheck : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (!buildManager.CanBuild)
+        if (!BuildManager.Instance.CanBuild)
             return;
 
         rend.material.color = hoverColor;

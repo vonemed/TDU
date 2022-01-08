@@ -4,7 +4,7 @@ using UnityEngine;
 public class TowerController : MonoBehaviour
 {
     [Header("General Attributes")]
-    public float range = 2f;
+    [SerializeField] private float range;
 
     [Header("Plasma Tower")]
     public bool PlasmaTower;
@@ -20,7 +20,6 @@ public class TowerController : MonoBehaviour
     public bool FlameTower;
     public ParticleSystem flames;
     public GameObject flameMissilePrefab;
-
 
     private float turretRotationSpeed = 10f;
     private float restBetweenShots = 0f;

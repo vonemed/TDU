@@ -45,13 +45,13 @@ public class EnemyBoss : MonoBehaviour
         if (health <= 0)
         {
             if (kingSphere == true)
-                PlayerStats.Money += 50;
+                PlayerStats.Instance.AddMoney(50);
 
             if (lordCube == true)
-                PlayerStats.Money += 100;
+                PlayerStats.Instance.AddMoney(100);
 
             if (eternalCyllinder == true)
-                PlayerStats.Money += 999;
+                PlayerStats.Instance.AddMoney(999);
             
             Destroy(gameObject);
         }

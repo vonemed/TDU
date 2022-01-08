@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
-    public static BuildManager instance;
+    private static BuildManager instance;
+    public static BuildManager Instance => instance;
 
     void Awake()
     {
@@ -20,29 +21,40 @@ public class BuildManager : MonoBehaviour
     public GameObject laserTower;
     public GameObject flameTower;
 
-    private TowerBluePrint towerToBuild;
+    [HideInInspector] public TowerBluePrint towerToBuild;
+    [HideInInspector] public TileCheck selectedTile;
+
+    public TurretUpgrade _turretUpgrade;
 
     // Find whether it's possible to build a tower on a given node/tile (false/true)
     public bool CanBuild { get { return towerToBuild != null; } }
     // Find whether the player has money to build the tower (false/true)
-    public bool HasMoney { get { return PlayerStats.Money >= towerToBuild.cost; } }
+    public bool HasMoney { get { return PlayerStats.Instance.GetMoney() >= towerToBuild.cost; } }
 
     public void BuildTowerOn (TileCheck tile)
     {
-        if (PlayerStats.Money < towerToBuild.cost)
+        if (PlayerStats.Instance.GetMoney() < towerToBuild.cost)
         {
             Debug.Log("Need more gold!");
             return; 
         }
         // Builds the tower on the given tile(s) to where it "instantiates" the tower alongside deducting from the player's money
-        PlayerStats.Money -= towerToBuild.cost;
+        PlayerStats.Instance.DeductMoney(towerToBuild.cost);
         GameObject tower = (GameObject)Instantiate(towerToBuild.prefab, tile.GetBuildPosition(), Quaternion.identity);
         tile.tower = tower;
     }
 
     public void SelectTowerToBuild (TowerBluePrint tower)
     {
+        _turretUpgrade.Hide();
         towerToBuild = tower;
+        selectedTile = null;
     }
 
+    public void SelectTile (TileCheck _tile)
+    {
+        selectedTile = _tile;
+        towerToBuild = null;
+        _turretUpgrade.SetTarget(_tile);
+    }
 }

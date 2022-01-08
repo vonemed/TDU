@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public static int Money;
-    public int startingMoney = 20;
+    private static PlayerStats instance;
+    public static PlayerStats Instance => instance;
+
+    [SerializeField] private int startingMoney;
+    private int currentMoney;
+    
     // static due to the same reasons as the aforementioned "Money"
     public static int Lives;
     public int startingLives = 20;
@@ -14,7 +18,9 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        Money = startingMoney;
+        instance = this;
+
+        currentMoney = startingMoney;
         Lives = startingLives;
 
         Rounds = 0;
@@ -22,6 +28,21 @@ public class PlayerStats : MonoBehaviour
 
     void Update() // Just to check the amount that player earns. هههههههههههههههههههههههههههههه
     {
-        Debug.Log("Money:" + " " + Money);
-    } 
+        Debug.Log("Money:" + " " + currentMoney);
+    }
+
+    public void AddMoney(int _amount)
+    {
+        currentMoney += _amount;
+    }
+
+    public void DeductMoney(int _amount)
+    {
+        currentMoney -= _amount;
+    }
+
+    public int GetMoney()
+    {
+        return currentMoney;
+    }
 }

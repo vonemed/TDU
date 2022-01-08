@@ -6,5 +6,4 @@ public class TowerBluePrint
 {
     public GameObject prefab;
     public int cost;
-
 }

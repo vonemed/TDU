@@ -41,13 +41,13 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             if (SphereLackey == true)
-                PlayerStats.Money += 1;
+                PlayerStats.Instance.AddMoney(1);
 
             if (CubeKnight == true)
-                PlayerStats.Money += 5;
+                PlayerStats.Instance.AddMoney(5);
 
             if (CylinderCommander == true)
-                PlayerStats.Money += 10;
+                PlayerStats.Instance.AddMoney(10);
 
             Destroy(gameObject);
         }

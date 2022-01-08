@@ -11,6 +11,6 @@ public class MoneyUI : MonoBehaviour
     void Update()
     {
         // Updates the displayed player's money in the game's UI
-        moneyText.text = "$" + PlayerStats.Money.ToString();
+        moneyText.text = "$" + PlayerStats.Instance.GetMoney().ToString();
     }
 }
