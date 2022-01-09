@@ -66,4 +66,11 @@ public class TileCheck : MonoBehaviour
     {
         rend.material.color = startColor;
     }
+
+    public void TowerUpgrade()
+    {
+        GameObject _tower = (GameObject)Instantiate(tower.GetComponent<TowerController>().upgradeVersion, GetBuildPosition(), Quaternion.identity);
+        Destroy(tower);
+        tower = _tower;
+    }
 }

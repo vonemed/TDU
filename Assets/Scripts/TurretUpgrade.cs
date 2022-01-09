@@ -31,10 +31,13 @@ public class TurretUpgrade : MonoBehaviour
     {
         //Add $ and destroy tower
         PlayerStats.Instance.AddMoney(5);
+        Destroy(target.tower);
+        Hide();
     }
 
     void Upgrade()
     {
+        target.TowerUpgrade();
         //Upgrade cost
         //Deduct from money PlayerStats.Instance.DeductMoeny()
         //Access the right turret and tell it, it has been upgraded

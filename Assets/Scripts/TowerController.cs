@@ -14,7 +14,7 @@ public class TowerController : MonoBehaviour
     [Header("Laser Tower")]
     public bool LaserTower;
     public LineRenderer lineRenderer;
-    private int damageOverTime = 30;
+    [SerializeField] private int damageOverTime;
 
     [Header("Flame Tower")]
     public bool FlameTower;
@@ -24,6 +24,8 @@ public class TowerController : MonoBehaviour
     private float turretRotationSpeed = 10f;
     private float restBetweenShots = 0f;
 
+    public GameObject upgradeVersion;
+    public int upgradeCost;
     [Header("Other")]
     [SerializeField]
     private Transform target;
@@ -31,6 +33,7 @@ public class TowerController : MonoBehaviour
     public string enemyTag = "enemy";
     public Transform shootingPoint;
     public Transform pivot;
+    public bool upgraded;
 
     void Start()
     {
@@ -109,6 +112,11 @@ public class TowerController : MonoBehaviour
             }
 
             restBetweenShots -= Time.deltaTime;
+        }
+
+        if(upgraded)
+        {
+
         }
     }
 
