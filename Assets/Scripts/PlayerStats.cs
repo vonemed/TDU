@@ -26,11 +26,6 @@ public class PlayerStats : MonoBehaviour
         Rounds = 0;
     }
 
-    void Update() // Just to check the amount that player earns. هههههههههههههههههههههههههههههه
-    {
-        Debug.Log("Money:" + " " + currentMoney);
-    }
-
     public void AddMoney(int _amount)
     {
         currentMoney += _amount;

@@ -2,10 +2,18 @@
 
 public class Shop : MonoBehaviour
 {
-    public TowerBluePrint plasmaTower;
-    public TowerBluePrint laserTower;
-    public TowerBluePrint flameTower;
+    private TowerBluePrint plasmaTower;
+    private TowerBluePrint laserTower;
+    private TowerBluePrint flameTower;
 
+    //Add cost value from buildermanager
+
+    void Awake()
+    {
+        plasmaTower = BuildManager.Instance.plasmaTower;
+        laserTower = BuildManager.Instance.laserTower;
+        flameTower = BuildManager.Instance.flameTower;
+    }
     public void SelectPlasmaTower()
     {
         Debug.Log("Plasma Tower Selected!");

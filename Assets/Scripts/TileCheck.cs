@@ -69,7 +69,7 @@ public class TileCheck : MonoBehaviour
 
     public void TowerUpgrade()
     {
-        GameObject _tower = (GameObject)Instantiate(tower.GetComponent<TowerController>().upgradeVersion, GetBuildPosition(), Quaternion.identity);
+        GameObject _tower = Instantiate<GameObject>(tower.GetComponent<TowerController>().upgradeVersion, GetBuildPosition(), Quaternion.identity);
         Destroy(tower);
         tower = _tower;
     }

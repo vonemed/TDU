@@ -89,10 +89,22 @@ public class TowerController : MonoBehaviour
 
         if (PlasmaTower == true)
         {
-            if (restBetweenShots <= 0f)
+            //Shooting
+            if (upgraded)
             {
-                Shooting();
-                restBetweenShots = 1f / fireRate;
+                if (restBetweenShots <= 0f)
+                {
+                    UpgradedPlasmaShooting();
+                    restBetweenShots = 1f / fireRate;
+                }
+
+            } else
+            {
+                if (restBetweenShots <= 0f)
+                {
+                    Shooting();
+                    restBetweenShots = 1f / fireRate;
+                }
             }
 
             restBetweenShots -= Time.deltaTime;
@@ -112,11 +124,6 @@ public class TowerController : MonoBehaviour
             }
 
             restBetweenShots -= Time.deltaTime;
-        }
-
-        if(upgraded)
-        {
-
         }
     }
 
@@ -158,5 +165,24 @@ public class TowerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
+    }
+
+    void UpgradedPlasmaShooting()
+    {
+        GameObject projectileInst1 = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position, shootingPoint.rotation); // Instantiate a projectile based on prefab
+        if (projectileInst1 != null)
+        {
+            projectileInst1.GetComponent<PlasmaProjectile>().findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
+        }
+        GameObject projectileInst2 = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position + new Vector3(0.2f, 0, 0), shootingPoint.rotation); // Instantiate a projectile based on prefab
+        if (projectileInst2 != null)
+        {
+            projectileInst2.GetComponent<PlasmaProjectile>().findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
+        }
+        GameObject projectileInst3 = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position - new Vector3(0.2f, 0, 0), shootingPoint.rotation); // Instantiate a projectile based on prefab
+        if (projectileInst3 != null)
+        {
+            projectileInst3.GetComponent<PlasmaProjectile>().findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
+        }
     }
 }

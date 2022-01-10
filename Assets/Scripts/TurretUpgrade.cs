@@ -38,6 +38,8 @@ public class TurretUpgrade : MonoBehaviour
     void Upgrade()
     {
         target.TowerUpgrade();
+        target.tower.GetComponent<TowerController>().upgraded = true;
+        Hide();
         //Upgrade cost
         //Deduct from money PlayerStats.Instance.DeductMoeny()
         //Access the right turret and tell it, it has been upgraded

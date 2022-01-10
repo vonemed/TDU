@@ -17,9 +17,10 @@ public class BuildManager : MonoBehaviour
         instance = this;
     }
 
-    public GameObject plasmaTower;
-    public GameObject laserTower;
-    public GameObject flameTower;
+    [Header("Basic Towers")]
+    public TowerBluePrint plasmaTower;
+    public TowerBluePrint laserTower;
+    public TowerBluePrint flameTower;
 
     [HideInInspector] public TowerBluePrint towerToBuild;
     [HideInInspector] public TileCheck selectedTile;
@@ -40,7 +41,7 @@ public class BuildManager : MonoBehaviour
         }
         // Builds the tower on the given tile(s) to where it "instantiates" the tower alongside deducting from the player's money
         PlayerStats.Instance.DeductMoney(towerToBuild.cost);
-        GameObject tower = (GameObject)Instantiate(towerToBuild.prefab, tile.GetBuildPosition(), Quaternion.identity);
+        GameObject tower = Instantiate<GameObject>(towerToBuild.prefab, tile.GetBuildPosition(), Quaternion.identity);
         tile.tower = tower;
     }
 
