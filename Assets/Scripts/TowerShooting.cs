@@ -8,6 +8,8 @@ public class TowerShooting : MonoBehaviour
     private bool laser;
     private bool flame;
 
+    private bool upgraded;
+
     // Start is called before the first frame update
     void Start()
     {

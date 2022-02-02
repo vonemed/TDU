@@ -107,11 +107,21 @@ public class TowerController : MonoBehaviour
                 }
             }
 
-            restBetweenShots -= Time.deltaTime;
-
         } else if (LaserTower == true)
         {
-            Laser();
+            if (upgraded)
+            {
+                if (restBetweenShots <= 0f)
+                {
+                    lineRenderer.enabled = false; //Replace it with FX
+                    UpgradedLaserShooting();
+                    restBetweenShots = 2f / fireRate;
+                }
+            }
+            else
+            {
+                Laser();
+            }
 
         } else if (FlameTower == true)
         {
@@ -122,9 +132,9 @@ public class TowerController : MonoBehaviour
                 Shooting();
                 restBetweenShots = 1f / fireRate;
             }
-
-            restBetweenShots -= Time.deltaTime;
         }
+
+        restBetweenShots -= Time.deltaTime;
     }
 
     void LockToTarget()
@@ -184,5 +194,14 @@ public class TowerController : MonoBehaviour
         {
             projectileInst3.GetComponent<PlasmaProjectile>().findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
         }
+    }
+
+    void UpgradedLaserShooting()
+    {
+        lineRenderer.enabled = true;
+        //lineRenderer.startWidth = 100;
+        lineRenderer.SetPosition(0, shootingPoint.position);
+        lineRenderer.SetPosition(1, target.position);
+        targetEnemy.TakeDamage(100);
     }
 }
