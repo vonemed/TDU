@@ -7,9 +7,15 @@ public class PlasmaProjectile : MonoBehaviour
     [Header("Attributes")]
     public float speed = 10f;
     public float damage;
+    public float explosionRadius = 0f;
+
+    [SerializeField] private float timeBeforeDissapear;
+
+    [SerializeField] private ParticleSystem explosionEffect;
+    private ParticleSystem explosionRef;
 
     private Transform target;
-    public float explosionRadius = 0f;
+
 
     public void findTarget(Transform _target)
     {
@@ -20,8 +26,12 @@ public class PlasmaProjectile : MonoBehaviour
     {
         if(target == null)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             return;
+
+        } else
+        {
+            gameObject.SetActive(true);
         }
 
         Vector3 dir = target.position - transform.position;
@@ -38,6 +48,13 @@ public class PlasmaProjectile : MonoBehaviour
 
     public void hitTarget()
     {
+        if(explosionEffect != null) 
+        {
+            explosionRef = Instantiate(explosionEffect, target.position, target.rotation);
+            explosionRef.Play();
+            StartCoroutine(StopEffectsAfterTime(timeBeforeDissapear));
+        }
+        
         if (explosionRadius > 0f) // Flames
         {
             explosion();
@@ -46,8 +63,8 @@ public class PlasmaProjectile : MonoBehaviour
         {
             Damage(target);
         }
-
-        Destroy(gameObject);
+        
+        gameObject.SetActive(false);
     }
 
     public void explosion()
@@ -81,5 +98,12 @@ public class PlasmaProjectile : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
+    }
+
+    IEnumerator StopEffectsAfterTime(float _time)
+    {
+        Debug.Log("stoppins");
+        yield return new WaitForSeconds(_time);
+        explosionRef.Stop();
     }
 }

@@ -125,12 +125,23 @@ public class TowerController : MonoBehaviour
 
         } else if (FlameTower == true)
         {
-            fireRate = 3f;
-            Flame();
-            if (restBetweenShots <= 0f)
+            if(upgraded)
             {
-                Shooting();
-                restBetweenShots = 1f / fireRate;
+                if (restBetweenShots <= 0f)
+                {
+                    UpgradedFlameShooting();
+                    restBetweenShots = 1f / fireRate;
+                }
+            }
+            else
+            {
+                fireRate = 3f;
+                Flame();
+                if (restBetweenShots <= 0f)
+                {
+                    Shooting();
+                    restBetweenShots = 1f / fireRate;
+                }
             }
         }
 
@@ -184,18 +195,19 @@ public class TowerController : MonoBehaviour
         {
             projectileInst1.GetComponent<PlasmaProjectile>().findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
         }
-        GameObject projectileInst2 = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position + new Vector3(0.2f, 0, 0), shootingPoint.rotation); // Instantiate a projectile based on prefab
+        GameObject projectileInst2 = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position + new Vector3(0.5f, 0, 0), shootingPoint.rotation); // Instantiate a projectile based on prefab
         if (projectileInst2 != null)
         {
             projectileInst2.GetComponent<PlasmaProjectile>().findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
         }
-        GameObject projectileInst3 = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position - new Vector3(0.2f, 0, 0), shootingPoint.rotation); // Instantiate a projectile based on prefab
+        GameObject projectileInst3 = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position - new Vector3(0.5f, 0, 0), shootingPoint.rotation); // Instantiate a projectile based on prefab
         if (projectileInst3 != null)
         {
             projectileInst3.GetComponent<PlasmaProjectile>().findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
         }
     }
 
+    //The shooting function of upgraded laser tower
     void UpgradedLaserShooting()
     {
         lineRenderer.enabled = true;
@@ -203,5 +215,17 @@ public class TowerController : MonoBehaviour
         lineRenderer.SetPosition(0, shootingPoint.position);
         lineRenderer.SetPosition(1, target.position);
         targetEnemy.TakeDamage(100);
+    }
+
+    //The shooting function of upgraded flame tower
+    void UpgradedFlameShooting()
+    {
+        GameObject projectileInst = (GameObject)Instantiate(projectiilePrefab, shootingPoint.position, shootingPoint.rotation); // Instantiate a projectile based on prefab
+        PlasmaProjectile projectile = projectileInst.GetComponent<PlasmaProjectile>(); // Give the projectile plasma attributes
+
+        if (projectile != null)
+        {
+            projectile.findTarget(target); // If the projectile is instantiated it needs to search for the target immediately
+        }
     }
 }
